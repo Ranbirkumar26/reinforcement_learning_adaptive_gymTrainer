@@ -1,0 +1,14 @@
+{
+  "policy": "heuristic_fallback",
+  "actions": [
+    "verbal_cue",
+    "joint_highlight",
+    "slow_tempo",
+    "adjust_difficulty",
+    "recommend_rest",
+    "no_feedback",
+    "demonstration",
+    "breathing_cue"
+  ],
+  "note": "Stable-Baselines3 DQN writes coach_policy.zip when installed."
+}

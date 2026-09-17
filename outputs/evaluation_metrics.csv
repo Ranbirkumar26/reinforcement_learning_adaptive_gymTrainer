@@ -1,0 +1,7 @@
+metric,value
+detected_reps,5
+expected_synthetic_reps,5
+rep_count_accuracy,1.0
+average_fatigue,0.089
+average_injury_risk,0.205
+mistake_types,{'knee_tracking': 1}

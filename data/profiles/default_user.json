@@ -1,0 +1,15 @@
+{
+  "user_id": "default_user",
+  "skill_level": "beginner",
+  "height_cm": 170,
+  "injury_notes": [],
+  "baseline_angles": {
+    "knee_min": 136,
+    "hip_min": 148,
+    "torso_lean_max": 24
+  },
+  "history": {
+    "sessions": 0,
+    "recurring_mistakes": {}
+  }
+}

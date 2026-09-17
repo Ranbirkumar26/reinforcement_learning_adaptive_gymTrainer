@@ -1,0 +1,22 @@
+# app
+streamlit==1.38.0
+
+# pose estimation and video processing
+opencv-python==4.10.0.84
+mediapipe==0.10.21
+
+# data, validation, and charts
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.9.2
+pydantic==2.8.2
+
+# reinforcement learning
+gymnasium==0.29.1
+stable-baselines3==2.3.2
+
+# report generation
+reportlab==4.2.2
+
+# testing
+pytest==8.3.2

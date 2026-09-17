@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.DS_Store
+*.pyc
+models/*.pkl
+outputs/evidence_frames/
+outputs/latest_session/evidence_frames/
+outputs/latest_session/pose_overlay.mp4
+tmp/
+.codex-finalizer/
+.chart-data-*/
+.codex-build/
+Adaptive_RL_Gym_Coach_Submission.zip

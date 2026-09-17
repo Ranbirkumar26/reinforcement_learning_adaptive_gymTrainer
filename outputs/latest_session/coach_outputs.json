@@ -1,0 +1,102 @@
+[
+  {
+    "rep_id": 1,
+    "state": [
+      0.7585214516132007,
+      0.8174448011771558,
+      0.11830391363891948,
+      0.05,
+      0.02606961010062944,
+      0.1280139751480911,
+      0.0,
+      0.7142857142857143,
+      0.0
+    ],
+    "action": "no_feedback",
+    "reward": 0.0793445396486079,
+    "problem": "No major issue",
+    "reason": "The rep stayed within baseline range and risk stayed low.",
+    "correction": "Continue the same movement pattern.",
+    "evidence_frame": 21
+  },
+  {
+    "rep_id": 2,
+    "state": [
+      0.7625593895710056,
+      0.82764513418809,
+      0.13244755643434397,
+      0.1,
+      0.060304721458289974,
+      0.14897115641537395,
+      0.0,
+      0.7142857142857143,
+      0.0
+    ],
+    "action": "no_feedback",
+    "reward": 0.057627306844094034,
+    "problem": "No major issue",
+    "reason": "The rep stayed within baseline range and risk stayed low.",
+    "correction": "Continue the same movement pattern.",
+    "evidence_frame": 63
+  },
+  {
+    "rep_id": 3,
+    "state": [
+      0.7577861473650962,
+      0.8308272999479667,
+      0.14705598985568022,
+      0.15,
+      0.07340086498208752,
+      0.19612780180887066,
+      0.0,
+      0.7142857142857143,
+      0.0
+    ],
+    "action": "no_feedback",
+    "reward": 0.0016923718963565617,
+    "problem": "No major issue",
+    "reason": "The rep stayed within baseline range and risk stayed low.",
+    "correction": "Continue the same movement pattern.",
+    "evidence_frame": 104
+  },
+  {
+    "rep_id": 4,
+    "state": [
+      0.7588231637139827,
+      0.8387105547659578,
+      0.16293654953130007,
+      0.2,
+      0.12248842292346965,
+      0.2550745428760576,
+      0.0,
+      0.7142857142857143,
+      0.0
+    ],
+    "action": "no_feedback",
+    "reward": -0.019332017496001143,
+    "problem": "No major issue",
+    "reason": "The rep stayed within baseline range and risk stayed low.",
+    "correction": "Continue the same movement pattern.",
+    "evidence_frame": 145
+  },
+  {
+    "rep_id": 5,
+    "state": [
+      0.7621581509757246,
+      0.8516310961101987,
+      0.1794463071577782,
+      0.25,
+      0.1608510355410784,
+      0.298159295825006,
+      0.2,
+      0.7142857142857143,
+      0.0
+    ],
+    "action": "joint_highlight",
+    "reward": -0.36634189022946845,
+    "problem": "Knee tracking issue",
+    "reason": "Knee tracking proxy reached 0.37, raising injury risk.",
+    "correction": "Keep knees aligned with toes during descent and ascent.",
+    "evidence_frame": 189
+  }
+]

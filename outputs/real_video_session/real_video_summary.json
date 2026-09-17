@@ -1,0 +1,44 @@
+{
+  "video": "/Users/tarry/Downloads/e8994a4c-7f2f-424e-b641-751ed98843e2.mov",
+  "landmarks_csv": "outputs/real_video_session/latest_session/landmarks.csv",
+  "landmarks_bytes": 2365384,
+  "rep_features_csv": "outputs/real_video_session/latest_session/rep_features.csv",
+  "rep_features_bytes": 3390,
+  "coach_outputs_json": "outputs/real_video_session/latest_session/coach_outputs.json",
+  "coach_outputs_bytes": 8740,
+  "overlay_video": "outputs/real_video_session/latest_session/pose_overlay.mp4",
+  "overlay_exists": true,
+  "overlay_bytes": 35352992,
+  "evidence_frames": [
+    "outputs/real_video_session/latest_session/evidence_frames/evidence_frame_76.jpg",
+    "outputs/real_video_session/latest_session/evidence_frames/evidence_frame_178.jpg",
+    "outputs/real_video_session/latest_session/evidence_frames/evidence_frame_273.jpg"
+  ],
+  "detected_reps": 17,
+  "average_fatigue": 0.34072578333566084,
+  "average_injury_risk": 0.6589833281138171,
+  "top_mistake": "knee_tracking",
+  "actions": [
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "joint_highlight",
+    "recommend_rest",
+    "joint_highlight",
+    "recommend_rest",
+    "joint_highlight"
+  ],
+  "action_counts": {
+    "joint_highlight": 15,
+    "recommend_rest": 2
+  }
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="56" y="34" font-family="Arial" font-size="24" font-weight="700" fill="#172033">Fatigue over reps</text>
+  <line x1="56" y1="364" x2="704" y2="364" stroke="#172033" stroke-width="1.5"/>
+  <line x1="56" y1="56" x2="56" y2="364" stroke="#172033" stroke-width="1.5"/>
+  <polyline fill="none" stroke="#2563eb" stroke-width="4" points="56.0,364.0 218.0,285.8 380.0,255.8 542.0,143.7 704.0,56.0"/>
+  <text x="380.0" y="406" text-anchor="middle" font-family="Arial" font-size="15" fill="#374151">Rep</text>
+  <text x="18" y="210.0" transform="rotate(-90 18 210.0)" text-anchor="middle" font-family="Arial" font-size="15" fill="#374151">Fatigue score</text>
+</svg>
