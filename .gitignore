@@ -9,6 +9,8 @@ models/*.pkl
 outputs/evidence_frames/
 outputs/latest_session/evidence_frames/
 outputs/latest_session/pose_overlay.mp4
+data/profiles/*.json
+!data/profiles/default_user.json
 tmp/
 .codex-finalizer/
 .chart-data-*/
