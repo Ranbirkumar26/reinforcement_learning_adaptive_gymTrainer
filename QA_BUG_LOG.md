@@ -19,13 +19,14 @@
 | BUG-005 | P2 | Real squat video path test | Provided squat video initially had not been processed. | Real-video verification was pending input. | Ran `/Users/tarry/Downloads/e8994a4c-7f2f-424e-b641-751ed98843e2.mov` through MediaPipe pipeline and copied it to `data/sample_videos/real_squat_sample.mov`. | Wrote real-video landmarks, overlay video, evidence frames, 17 rep features, and coaching JSON. | Fixed |
 | BUG-006 | P2 | Real-video coaching output | First high-risk reps received `no_feedback`. | DQN policy can return unsafe actions on out-of-distribution real video states. | Wrapped loaded SB3 policy in a safety policy that overrides high fatigue, high risk, and known mistake states with deterministic safe coaching actions. | `test_safety_policy_overrides_unsafe_no_feedback` passed. Real-video rerun selected 15 joint highlights and 2 rest recommendations. | Fixed |
 | BUG-007 | P2 | Evidence-frame visual check | Evidence frames showed raw video without skeleton overlay. | `analyze_video` extracted evidence frames from original video rather than rendered overlay video. | Extract evidence frames from overlay video when available. | Real-video rerun produced evidence frames with skeleton overlay. | Fixed |
+| BUG-008 | P2 | Streamlit pose overlay video player | Browser video player showed a dark overlay area while evidence frames rendered. | OpenCV wrote overlay MP4 as `mp4v` MPEG-4, which Streamlit/browser playback did not display reliably. | Added ffmpeg transcode step after OpenCV overlay generation: H.264 `avc1`, `yuv420p`, faststart. | `ffprobe` shows `codec_name=h264`, `codec_tag_string=avc1`, `pix_fmt=yuv420p`; dashboard restarted on port 8501. | Fixed |
 
 ## Final Verification Results
 
 Passed:
 
 - `.venv/bin/python -m compileall src app.py report/build_report.py`
-- `.venv/bin/pytest -q`: 28 passed
+- `.venv/bin/pytest -q`: 30 passed
 - `.venv/bin/python -m src.generate_sample_assets`
 - `.venv/bin/python -m src.train_rl --timesteps 200`
 - `.venv/bin/python -m src.evaluate`

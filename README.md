@@ -135,11 +135,12 @@ python -m src.evaluate
 streamlit run app.py --server.headless true
 ```
 
-Current result: `28 passed`. Supplied real squat video processed successfully with 17 detected reps.
+Current result: `30 passed`. Supplied real squat video processed successfully with 17 detected reps.
 
 ## Notes
 
 - Real video analysis requires `opencv-python` and `mediapipe`.
+- Browser-playable overlay video requires local `ffmpeg`; without it, OpenCV may write an `mp4v` overlay that some browsers display as a black video.
 - RL training uses Stable-Baselines3 when installed. If unavailable, training writes a deterministic heuristic policy artifact so the demo still runs.
 - Sample landmarks are synthetic and support reproducible tests and charts.
 - Included real squat sample: `data/sample_videos/real_squat_sample.mov`.

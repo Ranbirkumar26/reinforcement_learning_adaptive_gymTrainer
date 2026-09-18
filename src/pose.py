@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import csv
+import shutil
+import subprocess
 from pathlib import Path
 
 from src.contracts import Landmark
@@ -21,6 +23,44 @@ MEDIAPIPE_NAMES = {
 
 class PoseDependencyError(RuntimeError):
     pass
+
+
+def _make_browser_safe_mp4(video_path: Path) -> bool:
+    ffmpeg = shutil.which("ffmpeg")
+    if ffmpeg is None or not video_path.exists():
+        return False
+
+    converted = video_path.with_name(f"{video_path.stem}.browser.mp4")
+    command = [
+        ffmpeg,
+        "-y",
+        "-loglevel",
+        "error",
+        "-i",
+        str(video_path),
+        "-c:v",
+        "libx264",
+        "-preset",
+        "veryfast",
+        "-crf",
+        "23",
+        "-pix_fmt",
+        "yuv420p",
+        "-movflags",
+        "+faststart",
+        "-an",
+        str(converted),
+    ]
+    try:
+        subprocess.run(command, check=True)
+    except (OSError, subprocess.CalledProcessError):
+        converted.unlink(missing_ok=True)
+        return False
+
+    if converted.exists() and converted.stat().st_size > 0:
+        converted.replace(video_path)
+        return True
+    return False
 
 
 def extract_video_landmarks(video_path: Path, output_csv: Path, overlay_path: Path | None = None) -> list[Landmark]:
@@ -83,6 +123,8 @@ def extract_video_landmarks(video_path: Path, output_csv: Path, overlay_path: Pa
     capture.release()
     if writer is not None:
         writer.release()
+    if overlay_path is not None:
+        _make_browser_safe_mp4(overlay_path)
     write_landmarks_csv(rows, output_csv)
     return rows
 

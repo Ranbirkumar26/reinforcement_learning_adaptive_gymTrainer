@@ -8,7 +8,7 @@
   "coach_outputs_bytes": 8740,
   "overlay_video": "outputs/real_video_session/latest_session/pose_overlay.mp4",
   "overlay_exists": true,
-  "overlay_bytes": 35352992,
+  "overlay_bytes": 7304955,
   "evidence_frames": [
     "outputs/real_video_session/latest_session/evidence_frames/evidence_frame_76.jpg",
     "outputs/real_video_session/latest_session/evidence_frames/evidence_frame_178.jpg",
@@ -40,5 +40,6 @@
   "action_counts": {
     "joint_highlight": 15,
     "recommend_rest": 2
-  }
+  },
+  "overlay_codec": "h264/avc1/yuv420p"
 }

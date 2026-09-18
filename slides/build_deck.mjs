@@ -208,11 +208,11 @@ function slide10() {
   const slide = presentation.slides.add();
   addHeader(slide, "QA Status", "Automated checks cover core behavior and submission artifacts");
   addBullets(slide, [
-    "Pytest passed with 28 unit and integration tests",
+    "Pytest passed with 30 unit and integration tests",
     "Compile, sample generation, training, and evaluation passed",
     "Streamlit health check passed",
     "Real squat video processed with 17 detected reps",
-    "Real-video overlay and evidence frames generated",
+    "Browser-safe H.264 overlay and evidence frames generated",
   ], 96, 176, 1030, 56);
   addFooter(slide, 10);
 }
