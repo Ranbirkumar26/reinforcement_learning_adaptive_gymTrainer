@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Protocol
 
@@ -13,6 +14,14 @@ from src.profiles import UserProfile
 class Policy(Protocol):
     def predict_action(self, state: list[float], rep: RepFeature) -> int:
         ...
+
+
+@dataclass(frozen=True)
+class PolicyDecision:
+    raw_action: str
+    final_action: str
+    decision_source: str
+    reason: str
 
 
 class HeuristicPolicy:
@@ -47,13 +56,28 @@ class SafetyPolicy:
         self.heuristic = HeuristicPolicy()
 
     def predict_action(self, state: list[float], rep: RepFeature) -> int:
-        if (
-            rep.fatigue_score >= 0.65
-            or rep.injury_risk >= 0.45
-            or rep.mistake_label in {"knee_tracking", "forward_lean", "unstable_motion", "shallow_squat"}
-        ):
+        if self._safety_reason(rep):
             return self.heuristic.predict_action(state, rep)
         return self.base_policy.predict_action(state, rep)
+
+    def decision_trace(self, state: list[float], rep: RepFeature) -> PolicyDecision:
+        raw = action_name(self.base_policy.predict_action(state, rep))
+        reason = self._safety_reason(rep)
+        if reason:
+            final = action_name(self.heuristic.predict_action(state, rep))
+            return PolicyDecision(raw, final, "safety_policy", reason)
+        return PolicyDecision(raw, raw, "dqn_policy", "No safety override triggered.")
+
+    @staticmethod
+    def _safety_reason(rep: RepFeature) -> str:
+        reasons: list[str] = []
+        if rep.fatigue_score >= 0.65:
+            reasons.append(f"fatigue_score {rep.fatigue_score:.2f} >= 0.65")
+        if rep.injury_risk >= 0.45:
+            reasons.append(f"injury_risk {rep.injury_risk:.2f} >= 0.45")
+        if rep.mistake_label in {"knee_tracking", "forward_lean", "unstable_motion", "shallow_squat"}:
+            reasons.append(f"mistake_label is {rep.mistake_label}")
+        return "; ".join(reasons)
 
 
 def load_policy(model_path: Path) -> Policy:
@@ -64,6 +88,13 @@ def load_policy(model_path: Path) -> Policy:
         except Exception:
             return HeuristicPolicy()
     return HeuristicPolicy()
+
+
+def explain_policy_decision(policy: Policy, state: list[float], rep: RepFeature) -> PolicyDecision:
+    if hasattr(policy, "decision_trace"):
+        return policy.decision_trace(state, rep)  # type: ignore[attr-defined]
+    action = action_name(policy.predict_action(state, rep))
+    return PolicyDecision(action, action, "policy", "Policy action accepted without safety trace.")
 
 
 def state_vector(rep: RepFeature, profile: UserProfile, previous_action_id: int, repeated_mistakes: int) -> list[float]:

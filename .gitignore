@@ -14,3 +14,6 @@ tmp/
 .chart-data-*/
 .codex-build/
 Adaptive_RL_Gym_Coach_Submission.zip
+node_modules
+node_modules/
+.playwright-cli/

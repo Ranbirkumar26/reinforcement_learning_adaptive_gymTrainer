@@ -93,11 +93,11 @@ function slide2() {
   const slide = presentation.slides.add();
   addHeader(slide, "MVP Scope", "One complete squat workflow from input to coaching explanation");
   addBullets(slide, [
-    "Video upload or bundled synthetic squat session",
+    "Client name, profile inputs, and squat video upload",
     "Per-frame pose landmarks saved to CSV",
     "Per-rep biomechanics, fatigue, and risk features",
     "RL or heuristic policy chooses coaching action",
-    "Streamlit app displays explanation and charts",
+    "Dashboard separates user explanation from technical trace",
   ], 96, 184, 1020, 56);
   addFooter(slide, 2);
 }
@@ -177,15 +177,13 @@ function slide7() {
 
 function slide8() {
   const slide = presentation.slides.add();
-  addHeader(slide, "Explainable Output", "Each correction includes evidence and next action");
+  addHeader(slide, "Dashboard Output", "Each correction has a user view and a technical trace");
   addBand(slide, 110, 180, 1060, 300, "#f8fafc");
-  addText(slide, "Problem", 150, 214, 180, 28, { size: 24, bold: true, color: colors.red });
-  addText(slide, "Knee tracking issue", 150, 258, 260, 34, { size: 24 });
-  addText(slide, "Reason", 480, 214, 180, 28, { size: 24, bold: true, color: colors.amber });
-  addText(slide, "Knee tracking proxy raised injury risk", 480, 258, 280, 76, { size: 24 });
-  addText(slide, "Correction", 810, 214, 180, 28, { size: 24, bold: true, color: colors.green });
-  addText(slide, "Keep knees aligned with toes", 810, 258, 280, 72, { size: 24 });
-  addText(slide, "Evidence frame and highlighted joint are shown in the Streamlit demo.", 142, 548, 980, 32, { size: 23 });
+  addText(slide, "User side", 150, 214, 220, 28, { size: 24, bold: true, color: colors.green });
+  addText(slide, "Plain trainer-style summary, main issue, rest reps, and corrections", 150, 258, 330, 120, { size: 24 });
+  addText(slide, "Technical side", 590, 214, 240, 28, { size: 24, bold: true, color: colors.blue });
+  addText(slide, "Feature values, triggered thresholds, raw model action, safety decision, reward, and evidence frame", 590, 258, 420, 150, { size: 24 });
+  addText(slide, "The Show results button stays disabled until video analysis completes.", 142, 548, 980, 32, { size: 23 });
   addFooter(slide, 8);
 }
 
@@ -210,7 +208,7 @@ function slide10() {
   const slide = presentation.slides.add();
   addHeader(slide, "QA Status", "Automated checks cover core behavior and submission artifacts");
   addBullets(slide, [
-    "Pytest passed with 22 unit and integration tests",
+    "Pytest passed with 28 unit and integration tests",
     "Compile, sample generation, training, and evaluation passed",
     "Streamlit health check passed",
     "Real squat video processed with 17 detected reps",
@@ -255,7 +253,10 @@ const requirements = {
 };
 const fontPolicy = { basis: "design", families: [fontFamily] };
 const stagingDir = path.join(ROOT, ".codex-finalizer");
+const receiptPath = path.join(stagingDir, "final_adaptive_rl_gym_coach_v3.validation.json");
 await fs.mkdir(stagingDir, { recursive: true });
+await fs.rm(FINAL_PPTX, { force: true });
+await fs.rm(receiptPath, { force: true });
 
 await finalizePresentation({
   ...requirements,
@@ -274,7 +275,7 @@ await finalizePresentation({
   requiredNativeChartOwnerSlides: [9],
   fontPolicy,
   verifyArtifactToolImport: true,
-  receiptPath: path.join(stagingDir, "final_adaptive_rl_gym_coach_v3.validation.json"),
+  receiptPath,
 });
 
 console.log(FINAL_PPTX);

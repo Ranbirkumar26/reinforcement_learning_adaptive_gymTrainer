@@ -42,7 +42,7 @@ python -m pytest -q
 streamlit run app.py
 ```
 
-Open Streamlit, select `default_user`, upload `data/sample_videos/real_squat_sample.mov`, and run analysis. The app also works without a video by using bundled synthetic squat landmarks.
+Open Streamlit, enter client name, upload `data/sample_videos/real_squat_sample.mov` or use bundled sample checkbox, run analysis, then click `Show results`.
 
 ## Local quick start
 
@@ -116,9 +116,11 @@ submission_manifest.md
 ## Demo Flow
 
 1. Select sample profile.
-2. Upload squat video, or use bundled synthetic squat session.
+2. Upload squat video, or use bundled real sample video.
 3. Run analysis.
-4. Review rep table, fatigue chart, injury-risk chart, coaching actions, and explanations.
+4. Click `Show results` after analysis completes.
+5. Review user-side coaching explanation and technical-side model reasoning.
+6. Review rep table, fatigue chart, injury-risk chart, coaching actions, overlay video, and evidence frames.
 
 ## Test status
 
@@ -133,7 +135,7 @@ python -m src.evaluate
 streamlit run app.py --server.headless true
 ```
 
-Current result: `22 passed`. Supplied real squat video processed successfully with 17 detected reps.
+Current result: `28 passed`. Supplied real squat video processed successfully with 17 detected reps.
 
 ## Notes
 

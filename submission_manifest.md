@@ -38,7 +38,7 @@ streamlit run app.py
 - Evaluation metrics and SVG charts generated.
 - Report PDF generated and visually checked.
 - Final PPT generated, validated, and rendered for visual check.
-- `pytest` passed: 22 tests.
+- `pytest` passed: 28 tests.
 - `compileall` passed.
 - `python -m src.train_rl --timesteps 200` passed and wrote `models/coach_policy.zip`.
 - `python -m src.evaluate` passed and refreshed charts plus metrics.

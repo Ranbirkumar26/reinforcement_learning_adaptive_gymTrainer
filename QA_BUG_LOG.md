@@ -2,7 +2,7 @@
 
 ## Environment
 
-- Date: 2026-09-17
+- Date: 2026-09-18
 - Host: macOS arm64
 - Test venv: `.venv`
 - Python: 3.12.14
@@ -25,11 +25,12 @@
 Passed:
 
 - `.venv/bin/python -m compileall src app.py report/build_report.py`
-- `.venv/bin/pytest -q`: 22 passed
+- `.venv/bin/pytest -q`: 28 passed
 - `.venv/bin/python -m src.generate_sample_assets`
 - `.venv/bin/python -m src.train_rl --timesteps 200`
 - `.venv/bin/python -m src.evaluate`
 - Streamlit health check: `STREAMLIT_HEALTH_OK 200 ok`
+- Dashboard browser QA: `Show results` disabled before analysis, enabled after analysis, user-side and technical-side results rendered, first technical rep trace expanded successfully
 - MediaPipe runtime import: `mediapipe 0.10.21 solutions_pose True`
 - Real squat video pipeline: 17 reps detected, landmarks CSV written, rep features CSV written, coaching JSON written, overlay video written, evidence frames with skeleton overlay written
 

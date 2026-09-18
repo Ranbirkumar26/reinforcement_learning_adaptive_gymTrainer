@@ -38,7 +38,7 @@ The system has five layers:
 
 ## Architecture
 
-Input video flows through OpenCV and MediaPipe Pose when those dependencies are installed. Extracted landmarks are saved to landmarks.csv. The biomechanics layer segments squat repetitions and writes rep_features.csv. The coaching layer converts each rep into a state vector, chooses an action, computes reward, and writes coach_outputs.json. The Streamlit app displays the per-rep table, risk charts, fatigue charts, and explanations.
+Input video flows through OpenCV and MediaPipe Pose when those dependencies are installed. Extracted landmarks are saved to landmarks.csv. The biomechanics layer segments squat repetitions and writes rep_features.csv. The coaching layer converts each rep into a state vector, chooses an action, computes reward, and writes coach_outputs.json. The Streamlit dashboard collects client details, runs video analysis, then enables a results view with plain-language coaching on one side and technical policy reasoning on the other.
 
 ## MDP Formulation
 
@@ -46,17 +46,17 @@ The state vector contains normalized knee angle, hip angle, torso lean, rep prog
 
 ## Implementation
 
-The implementation uses Python 3.11 and Streamlit. Core modules implement geometry, pose extraction, rep segmentation, biomechanics features, user profiles, RL environment, policy selection, evaluation, and artifact generation. Stable-Baselines3 DQN trains on synthetic coaching trajectories when installed. If optional RL dependencies are unavailable, the project writes a heuristic policy artifact so the demo remains usable.
+The implementation uses Python 3.11 and Streamlit. Core modules implement geometry, pose extraction, rep segmentation, biomechanics features, user profiles, RL environment, policy selection, evaluation, artifact generation, and dashboard explanations. Stable-Baselines3 DQN trains on synthetic coaching trajectories when installed. If optional RL dependencies are unavailable, the project writes a heuristic policy artifact so the demo remains usable.
 
 ## Results
 
-The bundled synthetic session produces a complete end-to-end run. The system detects squat repetitions, calculates fatigue and injury-risk scores, selects coaching actions, and writes all declared data contracts. Evaluation generates reward, fatigue, and risk charts.
+The bundled synthetic session produces a complete end-to-end run. The system detects squat repetitions, calculates fatigue and injury-risk scores, selects coaching actions, and writes all declared data contracts. Evaluation generates reward, fatigue, and risk charts. The dashboard converts those outputs into two views: a trainer-style explanation for non-technical users and a technical trace showing pose features, thresholds, state vector, raw model action, final safety-filtered action, reward, and evidence frame.
 
 The supplied real squat video was processed successfully. The pipeline wrote landmarks, rep features, coaching outputs, an overlay video, and evidence frames. It detected 17 repetitions. The top detected issue was knee tracking. The final coaching output selected joint highlight for 15 reps and rest recommendation for 2 reps.
 
 ## Testing and QA
 
-The final QA pass used a local Python 3.12 virtual environment. Unit and integration tests covered geometry, rep segmentation, biomechanics extraction, reward scoring, action mapping, profile persistence, malformed input, missing video paths, and the synthetic end-to-end pipeline. The full pytest suite passed with 22 tests. Streamlit responded successfully to a health check. The supplied real squat video wrote landmarks, an overlay video, evidence frames, rep features, and coaching outputs.
+The final QA pass used a local Python 3.12 virtual environment. Unit and integration tests covered geometry, rep segmentation, biomechanics extraction, reward scoring, action mapping, profile persistence, dashboard summary logic, technical explanation traces, malformed input, missing video paths, and the synthetic end-to-end pipeline. The full pytest suite passed with 28 tests. Streamlit responded successfully to a health check. The supplied real squat video wrote landmarks, an overlay video, evidence frames, rep features, and coaching outputs.
 
 The only open issue is a non-blocking MediaPipe packaging metadata warning on macOS arm64. MediaPipe 0.10.21 imports correctly and exposes the required pose API, but pip check reports that the wheel is not supported on this platform.
 
