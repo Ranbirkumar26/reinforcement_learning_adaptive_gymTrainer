@@ -4,12 +4,13 @@ import { pathToFileURL } from "node:url";
 import { Presentation, PresentationFile } from "@oai/artifact-tool";
 
 const ROOT = path.resolve(new URL("..", import.meta.url).pathname);
-const SKILL_DIR = "/Users/tarry/.codex/plugins/cache/openai-primary-runtime/presentations/26.909.61513/skills/presentations";
+const SKILL_DIR = "/Users/tarry/.codex/plugins/cache/openai-primary-runtime/presentations/26.930.11008/skills/presentations";
 const TMP_DIR = path.join(ROOT, ".codex-build", "ppt");
 const FINAL_PPTX = path.join(ROOT, "slides", "final_adaptive_rl_gym_coach_v3.pptx");
 const RUNTIME_PYTHON = "/Users/tarry/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3";
 const RUNTIME_NODE_MODULES = "/Users/tarry/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules";
 process.env.RUNTIME_NODE_MODULES = RUNTIME_NODE_MODULES;
+const TOTAL_SLIDES = 13;
 
 const { resolvePresentationFont, applyPresentationChartFont, finalizePresentation } = await import(
   pathToFileURL(path.join(SKILL_DIR, "container_tools/artifact_tool_utils.mjs")).href
@@ -75,7 +76,7 @@ function addBullets(slide, items, left, top, width, rowHeight, color = colors.in
 }
 
 function addFooter(slide, number) {
-  addText(slide, `${number} / 12`, 1120, 664, 90, 24, { size: 13, color: colors.muted });
+  addText(slide, `${number} / ${TOTAL_SLIDES}`, 1120, 664, 90, 24, { size: 13, color: colors.muted });
 }
 
 function slide1() {
@@ -189,35 +190,58 @@ function slide8() {
 
 function slide9() {
   const slide = presentation.slides.add();
-  addHeader(slide, "Generated Evaluation Artifacts", "The project writes repeatable outputs for submission");
+  addHeader(slide, "RL Evidence Results", "Fixed-seed DQN compared with heuristic and random baselines");
   const chart = slide.charts.add("bar", {
     position: { left: 150, top: 180, width: 980, height: 350 },
-    categories: ["Landmarks", "Rep features", "Coach JSON", "Charts", "Report", "PPT"],
-    series: [{ name: "Status", values: [1, 1, 1, 1, 1, 1], fill: colors.blue }],
+    categories: ["DQN", "Heuristic", "Random"],
+    series: [{ name: "Mean reward", values: [0.714965, 0.871716, -10.769327], fill: colors.blue }],
     barOptions: { direction: "column", grouping: "clustered" },
     hasLegend: false,
-    dataLabels: { showValue: false },
+    dataLabels: { showValue: true },
   });
   applyPresentationChartFont(chart, { fontFamily });
-  addText(slide, "Submission outputs generated", 150, 148, 600, 28, { size: 22, bold: true });
-  addText(slide, "All outputs are local files. No paid API or cloud service required.", 150, 558, 980, 32, { size: 22, color: colors.muted });
+  addText(slide, "50,000 timesteps per seed. Seeds: 13, 17, 23, 29, 31. Eval seeds: 1001 through 1030.", 150, 140, 980, 30, { size: 18, color: colors.muted });
+  addText(slide, "Result: DQN beats random, but heuristic wins reward, fatigue, risk, repeated mistake rate, and correction rate.", 150, 558, 980, 46, { size: 22, color: colors.ink });
   addFooter(slide, 9);
 }
 
 function slide10() {
   const slide = presentation.slides.add();
-  addHeader(slide, "QA Status", "Automated checks cover core behavior and submission artifacts");
-  addBullets(slide, [
-    "Pytest passed with 30 unit and integration tests",
-    "Compile, sample generation, training, and evaluation passed",
-    "Streamlit health check passed",
-    "Real squat video processed with 17 detected reps",
-    "Browser-safe H.264 overlay and evidence frames generated",
-  ], 96, 176, 1030, 56);
+  addHeader(slide, "Reward Ablation", "Each row removes one reward penalty during held-out simulator evaluation");
+  const rows = [
+    ["Reward config", "DQN", "Heuristic", "Random"],
+    ["full_reward", "0.715", "0.872", "-10.769"],
+    ["no_fatigue_penalty", "1.711", "1.861", "-9.365"],
+    ["no_risk_penalty", "1.815", "1.969", "-8.784"],
+    ["no_repeated_mistake_penalty", "0.731", "0.872", "-7.320"],
+    ["no_correction_penalty", "1.005", "1.154", "-10.177"],
+  ];
+  rows.forEach((row, index) => {
+    const y = 154 + index * 64;
+    addBand(slide, 80, y, 1120, 50, index === 0 ? colors.pale : "#ffffff");
+    addText(slide, row[0], 104, y + 12, 360, 24, { size: 17, bold: index === 0 });
+    addText(slide, row[1], 520, y + 12, 140, 24, { size: 17, bold: index === 0 });
+    addText(slide, row[2], 720, y + 12, 160, 24, { size: 17, bold: index === 0 });
+    addText(slide, row[3], 940, y + 12, 160, 24, { size: 17, bold: index === 0 });
+  });
+  addText(slide, "Training curve is real SB3 Monitor output on simulator. Real squat video validates inference path only.", 86, 566, 1040, 50, { size: 20, color: colors.muted });
   addFooter(slide, 10);
 }
 
 function slide11() {
+  const slide = presentation.slides.add();
+  addHeader(slide, "QA Status", "Automated checks cover core behavior and submission artifacts");
+  addBullets(slide, [
+    "Pytest passed with 34 unit and integration tests",
+    "Compile, sample generation, fixed-seed training, and evaluation passed",
+    "Streamlit health check passed",
+    "Real squat video processed with 17 detected reps",
+    "Browser-safe H.264 overlay and evidence frames generated",
+  ], 96, 176, 1030, 56);
+  addFooter(slide, 11);
+}
+
+function slide12() {
   const slide = presentation.slides.add();
   addHeader(slide, "Limitations", "MVP choices keep the build credible within one week");
   addBullets(slide, [
@@ -227,26 +251,26 @@ function slide11() {
     "Camera angle and landmark confidence affect movement estimates",
     "Grad-CAM deferred because no CNN posture classifier is trained",
   ], 96, 176, 1030, 56);
-  addFooter(slide, 11);
+  addFooter(slide, 12);
 }
 
-function slide12() {
+function slide13() {
   const slide = presentation.slides.add();
   slide.background.fill = "#f8fafc";
   addText(slide, "Project Contribution", 82, 86, 900, 56, { size: 40, bold: true });
   addBand(slide, 82, 210, 1080, 220, "#ffffff");
   addText(slide, "The prototype reframes AI fitness feedback as personalized sequential coaching. It observes the user, chooses an action, and explains the decision with movement evidence.", 122, 260, 990, 96, { size: 30 });
-  addText(slide, "Submission package: code, README, tests, charts, report PDF, and final PPT", 82, 610, 960, 30, { size: 20, color: colors.muted });
-  addFooter(slide, 12);
+  addText(slide, "Submission package: code, README, tests, fixed-seed RL evidence, charts, report PDF, and final PPT", 82, 610, 960, 30, { size: 20, color: colors.muted });
+  addFooter(slide, 13);
 }
 
-[slide1, slide2, slide3, slide4, slide5, slide6, slide7, slide8, slide9, slide10, slide11, slide12].forEach((fn) => fn());
+[slide1, slide2, slide3, slide4, slide5, slide6, slide7, slide8, slide9, slide10, slide11, slide12, slide13].forEach((fn) => fn());
 
 const candidatePath = path.join(TMP_DIR, "candidate.pptx");
 await PresentationFile.exportPptx(presentation).then((blob) => blob.save(candidatePath));
 
 const requirements = {
-  explicitTotalSlideCount: 12,
+  explicitTotalSlideCount: 13,
   requiredNativeTableOwnerSlides: [],
   requiredNativeChartOwnerSlides: [9],
   materializeLiteralChartWorkbooks: true,

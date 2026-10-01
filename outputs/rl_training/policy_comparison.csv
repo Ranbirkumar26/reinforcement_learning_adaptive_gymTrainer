@@ -1,0 +1,6 @@
+metric,dqn_mean,dqn_std,heuristic_mean,heuristic_std,random_mean,random_std,direction,winner
+reward,0.714965,0.077572,0.871716,0.33687,-10.769327,2.742853,max,heuristic
+final_fatigue,0.535816,0.004245,0.528991,0.025421,0.882249,0.120815,min,heuristic
+final_risk,0.235068,0.003301,0.234774,0.071252,0.715206,0.162851,min,heuristic
+repeated_mistake_rate,0.000556,0.001242,0.0,0.0,0.375,0.195434,min,heuristic
+correction_rate,0.44,0.016736,0.427778,0.068276,0.897222,0.092027,min,heuristic

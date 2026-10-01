@@ -59,15 +59,24 @@ streamlit run app.py
 
 ## Main Commands
 
+Fast smoke run:
+
 ```bash
 python -m pytest -q
 python -m compileall src app.py report/build_report.py
 python -m src.generate_sample_assets
-python -m src.train_rl --timesteps 200
+python -m src.train_rl --timesteps 1000 --seeds 13 17 23 --eval-seeds 1001 1002 1003
 python -m src.evaluate
+streamlit run app.py --server.headless true
+```
+
+Submission evidence run:
+
+```bash
+python -m src.train_rl --timesteps 50000 --seeds 13 17 23 29 31 --eval-seeds 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030
+python -m src.evaluate --eval-seeds 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030 --train-seeds 13 17 23 29 31
 python report/build_report.py
 node slides/build_deck.mjs
-streamlit run app.py --server.headless true
 ```
 
 ## What the Prototype Proves
@@ -103,8 +112,20 @@ outputs/real_video_session/latest_session/rep_features.csv
 outputs/real_video_session/latest_session/coach_outputs.json
 outputs/real_video_session/latest_session/pose_overlay.mp4
 models/coach_policy.zip
+models/rl_runs/coach_policy_seed_13.zip
+models/rl_runs/coach_policy_seed_17.zip
+models/rl_runs/coach_policy_seed_23.zip
+models/rl_runs/coach_policy_seed_29.zip
+models/rl_runs/coach_policy_seed_31.zip
 outputs/evaluation_metrics.csv
-outputs/reward_curve.svg
+outputs/rl_training/episode_rewards.csv
+outputs/rl_training/per_seed_eval_metrics.csv
+outputs/rl_training/policy_comparison.csv
+outputs/rl_training/reward_ablation.csv
+outputs/rl_training/reward_curve.svg
+outputs/rl_training/baseline_comparison.svg
+outputs/rl_training/action_distribution.svg
+outputs/rl_training/run_manifest.json
 outputs/fatigue_over_reps.svg
 outputs/injury_risk_over_reps.svg
 report/Adaptive_RL_Gym_Coach_Report.pdf
@@ -130,18 +151,33 @@ Final verified commands:
 python -m compileall src app.py report/build_report.py
 python -m pytest -q
 python -m src.generate_sample_assets
-python -m src.train_rl --timesteps 200
-python -m src.evaluate
+python -m src.train_rl --timesteps 50000 --seeds 13 17 23 29 31 --eval-seeds 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030
+python -m src.evaluate --eval-seeds 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030 --train-seeds 13 17 23 29 31
 streamlit run app.py --server.headless true
 ```
 
-Current result: `30 passed`. Supplied real squat video processed successfully with 17 detected reps.
+Current result: `34 passed`. Supplied real squat video processed successfully with 17 detected reps.
+
+## RL Evidence Summary
+
+The final RL evidence uses real Stable-Baselines3 DQN episode logs from simulator training, not scripted reward values. Five fixed training seeds were used: `13, 17, 23, 29, 31`. Held-out evaluation used seeds `1001` through `1030`.
+
+| Metric | DQN mean | Heuristic mean | Random mean | Winner |
+|---|---:|---:|---:|---|
+| Reward | 0.714965 | 0.871716 | -10.769327 | heuristic |
+| Final fatigue | 0.535816 | 0.528991 | 0.882249 | heuristic |
+| Final risk | 0.235068 | 0.234774 | 0.715206 | heuristic |
+| Repeated mistake rate | 0.000556 | 0.000000 | 0.375000 | heuristic |
+| Correction rate | 0.440000 | 0.427778 | 0.897222 | heuristic |
+
+Interpretation: DQN learned useful behavior compared with random, but the deterministic heuristic remained strongest on this simulator. See `docs/04_rl_training_evidence.md` and `outputs/rl_training/`.
 
 ## Notes
 
 - Real video analysis requires `opencv-python` and `mediapipe`.
 - Browser-playable overlay video requires local `ffmpeg`; without it, OpenCV may write an `mp4v` overlay that some browsers display as a black video.
 - RL training uses Stable-Baselines3 when installed. If unavailable, training writes a deterministic heuristic policy artifact so the demo still runs.
+- RL training evidence is simulator-based. Real squat video validates the inference and dashboard path only.
 - Sample landmarks are synthetic and support reproducible tests and charts.
 - Included real squat sample: `data/sample_videos/real_squat_sample.mov`.
 - Real-video analysis outputs are under `outputs/real_video_session/`.

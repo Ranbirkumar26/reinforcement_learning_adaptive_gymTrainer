@@ -8,6 +8,7 @@
 - 2026-09-17: Stable-Baselines3 DQN chosen for RL when installed. Reason: simple discrete action policy matching eight coaching actions.
 - 2026-09-17: Synthetic trajectories allowed for RL training. Reason: real multi-session user feedback data is not available at project start.
 - 2026-09-17: Explainability uses biomechanical reasons, risk scores, and highlighted skeleton frames. Reason: Grad-CAM requires a CNN image model outside MVP scope.
+- 2026-10-02: RL evidence upgraded to fixed-seed multi-run DQN training with heuristic and random baselines. Reason: review evidence must show real logged simulator training and honest baseline comparison without tuning for a win.
 
 ## Deferred Features
 

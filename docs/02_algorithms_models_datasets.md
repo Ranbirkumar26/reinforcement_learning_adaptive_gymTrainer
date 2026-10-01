@@ -336,13 +336,36 @@ Stable-Baselines3 DQN with MlpPolicy
 | learning starts | 100 |
 | batch size | 32 |
 | gamma | 0.92 |
-| seed | 13 |
-| default timesteps | 3000 |
+| training seeds | 13, 17, 23, 29, 31 |
+| held-out eval seeds | 1001 through 1030 |
+| default timesteps | 50,000 per seed |
+
+### Evaluation result
+
+The final evidence compares DQN, heuristic, and random policies on the same held-out simulator seeds. DQN beats random on every metric but does not beat the heuristic baseline.
+
+| Metric | DQN mean | Heuristic mean | Random mean | Winner |
+|---|---:|---:|---:|---|
+| Reward | 0.714965 | 0.871716 | -10.769327 | heuristic |
+| Final fatigue | 0.535816 | 0.528991 | 0.882249 | heuristic |
+| Final risk | 0.235068 | 0.234774 | 0.715206 | heuristic |
+| Repeated mistake rate | 0.000556 | 0.000000 | 0.375000 | heuristic |
+| Correction rate | 0.440000 | 0.427778 | 0.897222 | heuristic |
+
+Detailed reproducibility evidence is in:
+
+```text
+docs/04_rl_training_evidence.md
+outputs/rl_training/
+```
 
 ### Output artifact
 
 ```text
 models/coach_policy.zip
+models/rl_runs/coach_policy_seed_*.zip
+outputs/rl_training/episode_rewards.csv
+outputs/rl_training/policy_comparison.csv
 ```
 
 If DQN cannot run, fallback metadata:

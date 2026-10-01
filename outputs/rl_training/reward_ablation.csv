@@ -1,0 +1,16 @@
+ablation,policy,mean_reward,std_reward,eval_episodes
+full_reward,dqn,0.714965,0.472602,150
+full_reward,heuristic,0.871716,0.33687,30
+full_reward,random,-10.769327,2.742853,30
+no_fatigue_penalty,dqn,1.710659,0.440999,150
+no_fatigue_penalty,heuristic,1.861043,0.318853,30
+no_fatigue_penalty,random,-9.365112,2.664681,30
+no_risk_penalty,dqn,1.815331,0.340046,150
+no_risk_penalty,heuristic,1.969429,0.169651,30
+no_risk_penalty,random,-8.78397,2.429781,30
+no_repeated_mistake_penalty,dqn,0.730965,0.449754,150
+no_repeated_mistake_penalty,heuristic,0.871716,0.33687,30
+no_repeated_mistake_penalty,random,-7.320327,1.373554,30
+no_correction_penalty,dqn,1.005365,0.458146,150
+no_correction_penalty,heuristic,1.154049,0.331344,30
+no_correction_penalty,random,-10.177161,2.744822,30

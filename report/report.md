@@ -42,21 +42,25 @@ Input video flows through OpenCV and MediaPipe Pose when those dependencies are 
 
 ## MDP Formulation
 
-The state vector contains normalized knee angle, hip angle, torso lean, rep progress, fatigue score, injury risk, repeated mistake count, previous action, and skill level. The action space has eight actions: verbal cue, joint highlight, slow tempo, adjust difficulty, recommend rest, no feedback, demonstration, and breathing cue. The reward increases when future movement quality improves and decreases when risk, fatigue, repeated mistakes, or excessive corrections increase.
+The state vector contains normalized knee angle, hip angle, torso lean, rep progress, fatigue score, injury risk, repeated mistake count, previous action, and skill level. The action space has eight actions: verbal cue, joint highlight, slow tempo, adjust difficulty, recommend rest, no feedback, demonstration, and breathing cue. The reward increases when future movement quality improves and decreases when risk, fatigue, repeated mistakes, or excessive corrections increase. The public interface stayed fixed at a 9-value state vector and 8 actions.
 
 ## Implementation
 
 The implementation uses Python 3.11 and Streamlit. Core modules implement geometry, pose extraction, rep segmentation, biomechanics features, user profiles, RL environment, policy selection, evaluation, artifact generation, and dashboard explanations. Stable-Baselines3 DQN trains on synthetic coaching trajectories when installed. If optional RL dependencies are unavailable, the project writes a heuristic policy artifact so the demo remains usable.
 
+The final RL evidence run trained five DQN policies with fixed seeds 13, 17, 23, 29, and 31 for 50,000 timesteps per seed. Held-out evaluation used seeds 1001 through 1030. Episode rewards were logged from Stable-Baselines3 Monitor during simulator training, not scripted after the fact.
+
 ## Results
 
-The bundled synthetic session produces a complete end-to-end run. The system detects squat repetitions, calculates fatigue and injury-risk scores, selects coaching actions, and writes all declared data contracts. Evaluation generates reward, fatigue, and risk charts. The dashboard converts those outputs into two views: a trainer-style explanation for non-technical users and a technical trace showing pose features, thresholds, state vector, raw model action, final safety-filtered action, reward, and evidence frame.
+The bundled synthetic session produces a complete end-to-end run. The system detects squat repetitions, calculates fatigue and injury-risk scores, selects coaching actions, and writes all declared data contracts. Evaluation generates reward, fatigue, risk, policy-comparison, ablation, and action-distribution charts. The dashboard converts those outputs into two views: a trainer-style explanation for non-technical users and a technical trace showing pose features, thresholds, state vector, raw model action, final safety-filtered action, reward, and evidence frame.
+
+Final simulator evaluation compared DQN, heuristic, and random policies on the same held-out seeds. DQN mean reward was 0.714965 with cross-seed standard deviation 0.077572. Heuristic mean reward was 0.871716 with standard deviation 0.336870. Random mean reward was -10.769327 with standard deviation 2.742853. The heuristic policy won reward, final fatigue, final risk, repeated mistake rate, and correction rate. DQN still beat random on all metrics, but it did not outperform the hand-designed heuristic on this simulator.
 
 The supplied real squat video was processed successfully. The pipeline wrote landmarks, rep features, coaching outputs, a browser-compatible H.264 overlay video, and evidence frames. It detected 17 repetitions. The top detected issue was knee tracking. The final coaching output selected joint highlight for 15 reps and rest recommendation for 2 reps.
 
 ## Testing and QA
 
-The final QA pass used a local Python 3.12 virtual environment. Unit and integration tests covered geometry, rep segmentation, biomechanics extraction, reward scoring, action mapping, profile persistence, dashboard summary logic, technical explanation traces, malformed input, missing video paths, browser-safe overlay conversion, and the synthetic end-to-end pipeline. The full pytest suite passed with 30 tests. Streamlit responded successfully to a health check. The supplied real squat video wrote landmarks, an H.264 overlay video, evidence frames, rep features, and coaching outputs.
+The final QA pass used a local Python 3.12 virtual environment. Unit and integration tests covered geometry, rep segmentation, biomechanics extraction, reward scoring, action mapping, profile persistence, dashboard summary logic, technical explanation traces, malformed input, missing video paths, browser-safe overlay conversion, RL simulator determinism, reward ablations, policy comparison outputs, and the synthetic end-to-end pipeline. The full pytest suite passed with 34 tests. Streamlit responded successfully to a health check. The supplied real squat video wrote landmarks, an H.264 overlay video, evidence frames, rep features, and coaching outputs.
 
 The only open issue is a non-blocking MediaPipe packaging metadata warning on macOS arm64. MediaPipe 0.10.21 imports correctly and exposes the required pose API, but pip check reports that the wheel is not supported on this platform.
 
@@ -66,7 +70,7 @@ Each coaching output includes a problem, reason, correction, and evidence frame.
 
 ## Limitations
 
-The MVP focuses only on squats. Injury risk signals are heuristic proxies and are not medical diagnosis. RL training uses simulated trajectories because real multi-session feedback data is unavailable. Camera angle, occlusion, clothing, and landmark confidence affect accuracy. Grad-CAM is deferred because this prototype does not train a CNN image classifier.
+The MVP focuses only on squats. Injury risk signals are heuristic proxies and are not medical diagnosis. RL training uses simulated trajectories because real multi-session feedback data is unavailable. The real squat video validates the inference path only. Camera angle, occlusion, clothing, and landmark confidence affect accuracy. Grad-CAM is deferred because this prototype does not train a CNN image classifier.
 
 ## Future Scope
 

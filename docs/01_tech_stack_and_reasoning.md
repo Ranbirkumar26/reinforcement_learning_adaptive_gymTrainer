@@ -38,7 +38,7 @@ Main Python entry points:
 
 ```bash
 python -m src.generate_sample_assets
-python -m src.train_rl --timesteps 200
+python -m src.train_rl --timesteps 50000 --seeds 13 17 23 29 31
 python -m src.evaluate
 python -m pytest -q
 streamlit run app.py
@@ -198,16 +198,25 @@ Why DQN:
 Training command:
 
 ```bash
-python -m src.train_rl --timesteps 200
+python -m src.train_rl --timesteps 50000 --seeds 13 17 23 29 31 --eval-seeds 1001 1002 1003 1004 1005 1006 1007 1008 1009 1010 1011 1012 1013 1014 1015 1016 1017 1018 1019 1020 1021 1022 1023 1024 1025 1026 1027 1028 1029 1030
 ```
 
 Output:
 
 ```text
 models/coach_policy.zip
-outputs/training_rewards.csv
-outputs/reward_curve.svg
+models/rl_runs/coach_policy_seed_*.zip
+outputs/rl_training/episode_rewards.csv
+outputs/rl_training/reward_curve.svg
+outputs/rl_training/policy_comparison.csv
 ```
+
+Why this evidence path matters:
+
+- Episode rewards are logged from Stable-Baselines3 Monitor during real simulator training.
+- Five fixed DQN seeds are reported instead of one cherry-picked run.
+- DQN is compared against heuristic and random baselines on held-out simulator seeds.
+- Results are honest: current DQN beats random but does not beat the heuristic baseline.
 
 Fallback behavior:
 

@@ -557,9 +557,24 @@ Generated files:
 ```text
 outputs/evaluation_metrics.csv
 outputs/reward_curve.svg
+outputs/rl_training/episode_rewards.csv
+outputs/rl_training/per_seed_eval_metrics.csv
+outputs/rl_training/policy_comparison.csv
+outputs/rl_training/reward_ablation.csv
+outputs/rl_training/reward_curve.svg
+outputs/rl_training/baseline_comparison.svg
+outputs/rl_training/action_distribution.svg
+outputs/rl_training/run_manifest.json
 outputs/fatigue_over_reps.svg
 outputs/injury_risk_over_reps.svg
 ```
+
+RL evidence details:
+
+- Training uses real Stable-Baselines3 Monitor episode logs from simulator training.
+- Final evidence uses five DQN training seeds and held-out evaluation seeds 1001 through 1030.
+- Evaluation compares DQN against heuristic and random baselines.
+- Current result: DQN beats random, while heuristic wins reward, fatigue, risk, repeated mistake rate, and correction rate.
 
 Report command:
 

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420">
+  <rect width="100%" height="100%" fill="#ffffff"/>
+  <text x="58" y="34" font-family="Arial" font-size="24" font-weight="700" fill="#172033">Held-out reward comparison</text>
+  <line x1="58" y1="80.8" x2="702" y2="80.8" stroke="#172033" stroke-width="1.5"/>
+  <line x1="58" y1="58" x2="58" y2="362" stroke="#172033" stroke-width="1.5"/>
+  <rect x="103.1" y="62.1" width="124.5" height="18.7" fill="#2563eb"/><text x="165.3" y="392" text-anchor="middle" font-family="Arial" font-size="14" fill="#374151">dqn</text><text x="165.3" y="54.1" text-anchor="middle" font-family="Arial" font-size="13" fill="#172033">0.715</text><rect x="317.7" y="58.0" width="124.5" height="22.8" fill="#2563eb"/><text x="380.0" y="392" text-anchor="middle" font-family="Arial" font-size="14" fill="#374151">heuristic</text><text x="380.0" y="50.0" text-anchor="middle" font-family="Arial" font-size="13" fill="#172033">0.872</text><rect x="532.4" y="80.8" width="124.5" height="281.2" fill="#2563eb"/><text x="594.7" y="392" text-anchor="middle" font-family="Arial" font-size="14" fill="#374151">random</text><text x="594.7" y="338.0" text-anchor="middle" font-family="Arial" font-size="13" fill="#172033">-10.769</text>
+  <text x="18" y="210.0" transform="rotate(-90 18 210.0)" text-anchor="middle" font-family="Arial" font-size="15" fill="#374151">Mean reward</text>
+</svg>
